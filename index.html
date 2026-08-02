@@ -334,6 +334,26 @@ canvas.pad{
 .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);}
 .dot.is-ok{background:var(--ok);}
 
+/* ---------- Resumen ---------- */
+.resumen-group + .resumen-group{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);}
+.resumen-group h3{
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-size:11.5px;
+  color:var(--ink-faint);
+  margin:0 0 8px;
+}
+.resumen-row{
+  display:flex;justify-content:space-between;gap:12px;
+  padding:6px 0;
+  border-bottom:1px solid var(--line-soft);
+  font-size:13.5px;
+}
+.resumen-row:last-child{border-bottom:none;}
+.resumen-label{color:var(--ink-muted);}
+.resumen-value{color:var(--ink);font-weight:600;text-align:right;}
+
 /* ---------- Bottom action bar ---------- */
 .actionbar{
   position:fixed;left:0;right:0;bottom:0;z-index:30;
@@ -405,7 +425,7 @@ canvas.pad{
   </div>
 </div>
 
-<div class="wrap">
+<div class="wrap" id="entryPanels">
 
   <!-- CLIENTE -->
   <section class="panel">
@@ -745,6 +765,48 @@ canvas.pad{
     </div>
   </section>
 
+  <!-- TECNICO -->
+  <section class="panel">
+    <header class="panel__band">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l3.5-1 10-10a1.8 1.8 0 0 0-2.5-2.5l-10 10z"/><path d="M14.5 7.5l2 2"/></svg>
+      <h2>Técnico que realiza la revisión</h2>
+    </header>
+    <div class="panel__body">
+      <div class="grid grid--wide">
+        <div class="sig-block">
+          <div class="sig-head">
+            <label for="signature-pad-tecnico">Firma</label>
+            <button type="button" class="ghost-btn" id="clearFirmaTecnico">Limpiar</button>
+          </div>
+          <canvas id="signature-pad-tecnico" class="pad"></canvas>
+          <div class="sig-status"><span class="dot" id="dotFirmaTecnico"></span><span id="txtFirmaTecnico">pendiente</span></div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-head">
+            <label for="apellido-pad-tecnico">Aclaración</label>
+            <button type="button" class="ghost-btn" id="clearApellidoTecnico">Limpiar</button>
+          </div>
+          <canvas id="apellido-pad-tecnico" class="pad"></canvas>
+          <div class="sig-status"><span class="dot" id="dotApellidoTecnico"></span><span id="txtApellidoTecnico">pendiente</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /entryPanels -->
+
+<div class="wrap" id="resumenSection" hidden>
+  <!-- RESUMEN -->
+  <section class="panel">
+    <header class="panel__band">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h6M8 17h4"/></svg>
+      <h2>Resumen</h2>
+      <button type="button" class="ghost-btn" id="btnEditarDatos" style="margin-left:auto">Editar datos</button>
+    </header>
+    <div class="panel__body">
+      <div id="resumenContenido"></div>
+    </div>
+  </section>
+
   <!-- CONFORMIDAD -->
   <section class="panel">
     <header class="panel__band">
@@ -770,29 +832,11 @@ canvas.pad{
           <div class="sig-status"><span class="dot" id="dotApellido"></span><span id="txtApellido">pendiente</span></div>
         </div>
       </div>
-
-      <div class="subhead">Técnico que realiza la revisión</div>
-      <div class="grid grid--wide">
-        <div class="sig-block">
-          <div class="sig-head">
-            <label for="signature-pad-tecnico">Firma</label>
-            <button type="button" class="ghost-btn" id="clearFirmaTecnico">Limpiar</button>
-          </div>
-          <canvas id="signature-pad-tecnico" class="pad"></canvas>
-          <div class="sig-status"><span class="dot" id="dotFirmaTecnico"></span><span id="txtFirmaTecnico">pendiente</span></div>
-        </div>
-        <div class="sig-block">
-          <div class="sig-head">
-            <label for="apellido-pad-tecnico">Aclaración</label>
-            <button type="button" class="ghost-btn" id="clearApellidoTecnico">Limpiar</button>
-          </div>
-          <canvas id="apellido-pad-tecnico" class="pad"></canvas>
-          <div class="sig-status"><span class="dot" id="dotApellidoTecnico"></span><span id="txtApellidoTecnico">pendiente</span></div>
-        </div>
-      </div>
     </div>
   </section>
+</div>
 
+<div class="wrap">
   <div class="foot-note">CASAS Tratamiento de Agua</div>
 </div>
 
@@ -923,16 +967,23 @@ canvas.pad{
             canvas.getContext("2d").scale(ratio, ratio);
         }
 
-        window.addEventListener('resize', () => {
-            ajustarTamañoCanvas(canvas);
-            ajustarTamañoCanvas(apellidoCanvas);
-            ajustarTamañoCanvas(canvasTecnico);
-            ajustarTamañoCanvas(apellidoCanvasTecnico);
-        });
-
-        function guardarDatos() {
-            alert('Datos guardados con éxito!');
+        // Ajusta el tamaño del canvas preservando lo ya firmado (necesario porque
+        // el canvas del cliente empieza oculto dentro de #resumenSection, con
+        // ancho 0, hasta que se muestra el resumen).
+        function resizeSignaturePad(canvasEl, padInstance) {
+            const data = padInstance.toData();
+            ajustarTamañoCanvas(canvasEl);
+            if (data && data.length) {
+                padInstance.fromData(data);
+            }
         }
+
+        window.addEventListener('resize', () => {
+            resizeSignaturePad(canvas, signaturePad);
+            resizeSignaturePad(apellidoCanvas, apellidoPad);
+            resizeSignaturePad(canvasTecnico, signaturePadTecnico);
+            resizeSignaturePad(apellidoCanvasTecnico, apellidoPadTecnico);
+        });
 
 
 
@@ -1577,8 +1628,82 @@ if (rechazo !== '') {
       required.forEach(function(el){ el.addEventListener('input', updateProgress); el.addEventListener('change', updateProgress); });
       updateProgress();
 
+      // ---- resumen: revisar datos antes de firmar la conformidad ----
+      var entryPanels = document.getElementById('entryPanels');
+      var resumenSection = document.getElementById('resumenSection');
+      var resumenContenido = document.getElementById('resumenContenido');
+
+      function escapeHtml(str){
+        return String(str).replace(/[&<>"']/g, function(c){
+          return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+        });
+      }
+
+      function fieldLabelText(field, fallback){
+        var label = field.querySelector('label');
+        if(!label) return fallback;
+        var clone = label.cloneNode(true);
+        clone.querySelectorAll('span').forEach(function(s){ s.remove(); });
+        var text = clone.textContent.trim();
+        return text || fallback;
+      }
+
+      function fieldSummaryValue(field){
+        var input = field.querySelector('input:not([type=hidden]), textarea');
+        var value = input ? (input.value || '').trim() : '';
+        if(!value){
+          var visibleSelect = field.querySelector('select:not([hidden])');
+          if(visibleSelect) value = (visibleSelect.value || '').trim();
+        }
+        if(!value){
+          var calc = field.querySelector('.calc__value');
+          if(calc) value = calc.textContent.replace(/\s+/g,' ').trim();
+        }
+        var unitEl = field.querySelector('.unit-toggle .is-active, .unit');
+        var chipEl = field.querySelector('.chip-group .chip.is-active');
+        var parts = [value || '—'];
+        if(unitEl) parts.push(unitEl.textContent.trim());
+        if(chipEl) parts.push('(' + chipEl.textContent.trim() + ')');
+        return parts.join(' ');
+      }
+
+      function renderResumen(){
+        var groupsHtml = [];
+        entryPanels.querySelectorAll(':scope > section.panel').forEach(function(panel){
+          var h2 = panel.querySelector('.panel__band h2');
+          var title = h2 ? h2.textContent.trim() : '';
+          var rowsHtml = [];
+          panel.querySelectorAll('.field').forEach(function(field){
+            if(!field.querySelector('input, select, textarea, .calc__value')) return;
+            var label = fieldLabelText(field, title);
+            var value = fieldSummaryValue(field);
+            rowsHtml.push('<div class="resumen-row"><span class="resumen-label">' + escapeHtml(label) + '</span><span class="resumen-value">' + escapeHtml(value) + '</span></div>');
+          });
+          if(rowsHtml.length){
+            groupsHtml.push('<div class="resumen-group"><h3>' + escapeHtml(title) + '</h3>' + rowsHtml.join('') + '</div>');
+          }
+        });
+        resumenContenido.innerHTML = groupsHtml.join('');
+      }
+
+      function mostrarResumen(){
+        renderResumen();
+        entryPanels.hidden = true;
+        resumenSection.hidden = false;
+        resizeSignaturePad(canvas, signaturePad);
+        resizeSignaturePad(apellidoCanvas, apellidoPad);
+        resumenSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function volverAEditar(){
+        resumenSection.hidden = true;
+        entryPanels.hidden = false;
+        entryPanels.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
       // ---- acciones ----
-      document.getElementById('btnGuardar').addEventListener('click', guardarDatos);
+      document.getElementById('btnGuardar').addEventListener('click', mostrarResumen);
+      document.getElementById('btnEditarDatos').addEventListener('click', volverAEditar);
       document.getElementById('btnExportar').addEventListener('click', exportarPDF);
     })();
     </script>
