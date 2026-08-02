@@ -770,6 +770,26 @@ canvas.pad{
           <div class="sig-status"><span class="dot" id="dotApellido"></span><span id="txtApellido">pendiente</span></div>
         </div>
       </div>
+
+      <div class="subhead">Técnico que realiza la revisión</div>
+      <div class="grid grid--wide">
+        <div class="sig-block">
+          <div class="sig-head">
+            <label for="signature-pad-tecnico">Firma</label>
+            <button type="button" class="ghost-btn" id="clearFirmaTecnico">Limpiar</button>
+          </div>
+          <canvas id="signature-pad-tecnico" class="pad"></canvas>
+          <div class="sig-status"><span class="dot" id="dotFirmaTecnico"></span><span id="txtFirmaTecnico">pendiente</span></div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-head">
+            <label for="apellido-pad-tecnico">Aclaración</label>
+            <button type="button" class="ghost-btn" id="clearApellidoTecnico">Limpiar</button>
+          </div>
+          <canvas id="apellido-pad-tecnico" class="pad"></canvas>
+          <div class="sig-status"><span class="dot" id="dotApellidoTecnico"></span><span id="txtApellidoTecnico">pendiente</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -845,8 +865,12 @@ canvas.pad{
         // Inicializar Signature Pad con ajuste dinámico de tamaño y mayor sensibilidad
         const canvas = document.getElementById('signature-pad');
         const apellidoCanvas = document.getElementById('apellido-pad');
-        ajustarTamañoCanvas(canvas);  
+        const canvasTecnico = document.getElementById('signature-pad-tecnico');
+        const apellidoCanvasTecnico = document.getElementById('apellido-pad-tecnico');
+        ajustarTamañoCanvas(canvas);
         ajustarTamañoCanvas(apellidoCanvas);
+        ajustarTamañoCanvas(canvasTecnico);
+        ajustarTamañoCanvas(apellidoCanvasTecnico);
 
         // Configuración personalizada para mayor sensibilidad y suavidad
         const signaturePad = new SignaturePad(canvas, {
@@ -858,6 +882,22 @@ canvas.pad{
         });
 
         const apellidoPad = new SignaturePad(apellidoCanvas, {
+            minWidth: 0.5,
+            maxWidth: 2.5,
+            penColor: 'blue',
+            throttle: 0,
+            minDistance: 0.5
+        });
+
+        const signaturePadTecnico = new SignaturePad(canvasTecnico, {
+            minWidth: 0.5,
+            maxWidth: 2.5,
+            penColor: 'blue',
+            throttle: 0,
+            minDistance: 0.5
+        });
+
+        const apellidoPadTecnico = new SignaturePad(apellidoCanvasTecnico, {
             minWidth: 0.5,
             maxWidth: 2.5,
             penColor: 'blue',
@@ -886,6 +926,8 @@ canvas.pad{
         window.addEventListener('resize', () => {
             ajustarTamañoCanvas(canvas);
             ajustarTamañoCanvas(apellidoCanvas);
+            ajustarTamañoCanvas(canvasTecnico);
+            ajustarTamañoCanvas(apellidoCanvasTecnico);
         });
 
         function guardarDatos() {
@@ -1417,6 +1459,8 @@ if (rechazo !== '') {
             // Obtener la firma y el apellido como vectores (SVG) y añadirlos al PDF
             await agregarFirmaSVG(doc, signaturePad, 120, 260, 70, 24);
             await agregarFirmaSVG(doc, apellidoPad, 120, 277, 70, 12);
+            await agregarFirmaSVG(doc, signaturePadTecnico, 35, 260, 70, 24);
+            await agregarFirmaSVG(doc, apellidoPadTecnico, 35, 277, 70, 12);
 
             // Generar el nombre del archivo PDF
             const formattedDateForFilename = fecha.replace(/-/g, '').slice(2); // Formato AAMMDD
@@ -1433,6 +1477,14 @@ if (rechazo !== '') {
 
         function limpiarApellido() {
             apellidoPad.clear();
+        }
+
+        function limpiarFirmaTecnico() {
+            signaturePadTecnico.clear();
+        }
+
+        function limpiarApellidoTecnico() {
+            apellidoPadTecnico.clear();
         }
     </script>
 
@@ -1507,6 +1559,11 @@ if (rechazo !== '') {
       apellidoPad.addEventListener('endStroke', function(){ updateSigStatus(apellidoPad,'dotApellido','txtApellido', null); });
       document.getElementById('clearFirma').addEventListener('click', function(){ limpiarFirma(); updateSigStatus(signaturePad,'dotFirma','txtFirma','barFirma'); });
       document.getElementById('clearApellido').addEventListener('click', function(){ limpiarApellido(); updateSigStatus(apellidoPad,'dotApellido','txtApellido', null); });
+
+      signaturePadTecnico.addEventListener('endStroke', function(){ updateSigStatus(signaturePadTecnico,'dotFirmaTecnico','txtFirmaTecnico', null); });
+      apellidoPadTecnico.addEventListener('endStroke', function(){ updateSigStatus(apellidoPadTecnico,'dotApellidoTecnico','txtApellidoTecnico', null); });
+      document.getElementById('clearFirmaTecnico').addEventListener('click', function(){ limpiarFirmaTecnico(); updateSigStatus(signaturePadTecnico,'dotFirmaTecnico','txtFirmaTecnico', null); });
+      document.getElementById('clearApellidoTecnico').addEventListener('click', function(){ limpiarApellidoTecnico(); updateSigStatus(apellidoPadTecnico,'dotApellidoTecnico','txtApellidoTecnico', null); });
 
       // ---- medidor de campos completos ----
       var required = Array.prototype.slice.call(document.querySelectorAll('[required]'));
