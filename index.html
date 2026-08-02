@@ -185,6 +185,7 @@ h1,h2,h3{text-wrap:balance;margin:0;}
   gap:14px 12px;
 }
 .grid--wide{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
+.sig-grid{display:grid;grid-template-columns:1fr;gap:16px;}
 
 /* ---------- Fields ---------- */
 .field{display:flex;flex-direction:column;gap:6px;min-width:0;}
@@ -772,7 +773,7 @@ canvas.pad{
       <h2>Técnico que realiza la revisión</h2>
     </header>
     <div class="panel__body">
-      <div class="grid grid--wide">
+      <div class="sig-grid">
         <div class="sig-block">
           <div class="sig-head">
             <label for="signature-pad-tecnico">Firma</label>
@@ -814,7 +815,7 @@ canvas.pad{
       <h2>Conformidad</h2>
     </header>
     <div class="panel__body">
-      <div class="grid grid--wide">
+      <div class="sig-grid">
         <div class="sig-block">
           <div class="sig-head">
             <label for="signature-pad">Firma</label>
