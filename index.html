@@ -335,6 +335,25 @@ canvas.pad{
 .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);}
 .dot.is-ok{background:var(--ok);}
 
+.sig-controls{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.color-swatches{display:flex;gap:6px;flex:none;}
+.color-swatch{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--line);
+  padding:0;cursor:pointer;
+  transition:transform .1s ease, border-color .1s ease;
+}
+.color-swatch:hover{transform:scale(1.12);}
+.color-swatch.is-active{border-color:var(--ink);}
+.width-control{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--ink-faint);
+  flex:1;min-width:110px;
+}
+.width-control input[type="range"]{flex:1;accent-color:var(--accent);}
+
 /* ---------- Resumen ---------- */
 .resumen-group + .resumen-group{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);}
 .resumen-group h3{
@@ -779,6 +798,18 @@ canvas.pad{
             <label for="signature-pad-tecnico">Firma</label>
             <button type="button" class="ghost-btn" id="clearFirmaTecnico">Limpiar</button>
           </div>
+          <div class="sig-controls">
+            <div class="color-swatches" data-pad="firmaTecnico">
+              <button type="button" class="color-swatch is-active" data-color="blue" style="background:blue" aria-label="Azul"></button>
+              <button type="button" class="color-swatch" data-color="red" style="background:red" aria-label="Rojo"></button>
+              <button type="button" class="color-swatch" data-color="green" style="background:green" aria-label="Verde"></button>
+              <button type="button" class="color-swatch" data-color="black" style="background:black" aria-label="Negro"></button>
+            </div>
+            <div class="width-control">
+              <span>Grosor</span>
+              <input type="range" min="1" max="6" step="0.5" value="2.5" data-pad="firmaTecnico">
+            </div>
+          </div>
           <canvas id="signature-pad-tecnico" class="pad"></canvas>
           <div class="sig-status"><span class="dot" id="dotFirmaTecnico"></span><span id="txtFirmaTecnico">pendiente</span></div>
         </div>
@@ -786,6 +817,18 @@ canvas.pad{
           <div class="sig-head">
             <label for="apellido-pad-tecnico">Aclaración</label>
             <button type="button" class="ghost-btn" id="clearApellidoTecnico">Limpiar</button>
+          </div>
+          <div class="sig-controls">
+            <div class="color-swatches" data-pad="apellidoTecnico">
+              <button type="button" class="color-swatch is-active" data-color="blue" style="background:blue" aria-label="Azul"></button>
+              <button type="button" class="color-swatch" data-color="red" style="background:red" aria-label="Rojo"></button>
+              <button type="button" class="color-swatch" data-color="green" style="background:green" aria-label="Verde"></button>
+              <button type="button" class="color-swatch" data-color="black" style="background:black" aria-label="Negro"></button>
+            </div>
+            <div class="width-control">
+              <span>Grosor</span>
+              <input type="range" min="1" max="6" step="0.5" value="2.5" data-pad="apellidoTecnico">
+            </div>
           </div>
           <canvas id="apellido-pad-tecnico" class="pad"></canvas>
           <div class="sig-status"><span class="dot" id="dotApellidoTecnico"></span><span id="txtApellidoTecnico">pendiente</span></div>
@@ -821,6 +864,18 @@ canvas.pad{
             <label for="signature-pad">Firma</label>
             <button type="button" class="ghost-btn" id="clearFirma">Limpiar</button>
           </div>
+          <div class="sig-controls">
+            <div class="color-swatches" data-pad="firma">
+              <button type="button" class="color-swatch is-active" data-color="blue" style="background:blue" aria-label="Azul"></button>
+              <button type="button" class="color-swatch" data-color="red" style="background:red" aria-label="Rojo"></button>
+              <button type="button" class="color-swatch" data-color="green" style="background:green" aria-label="Verde"></button>
+              <button type="button" class="color-swatch" data-color="black" style="background:black" aria-label="Negro"></button>
+            </div>
+            <div class="width-control">
+              <span>Grosor</span>
+              <input type="range" min="1" max="6" step="0.5" value="2.5" data-pad="firma">
+            </div>
+          </div>
           <canvas id="signature-pad" class="pad"></canvas>
           <div class="sig-status"><span class="dot" id="dotFirma"></span><span id="txtFirma">pendiente</span></div>
         </div>
@@ -828,6 +883,18 @@ canvas.pad{
           <div class="sig-head">
             <label for="apellido-pad">Aclaración</label>
             <button type="button" class="ghost-btn" id="clearApellido">Limpiar</button>
+          </div>
+          <div class="sig-controls">
+            <div class="color-swatches" data-pad="apellido">
+              <button type="button" class="color-swatch is-active" data-color="blue" style="background:blue" aria-label="Azul"></button>
+              <button type="button" class="color-swatch" data-color="red" style="background:red" aria-label="Rojo"></button>
+              <button type="button" class="color-swatch" data-color="green" style="background:green" aria-label="Verde"></button>
+              <button type="button" class="color-swatch" data-color="black" style="background:black" aria-label="Negro"></button>
+            </div>
+            <div class="width-control">
+              <span>Grosor</span>
+              <input type="range" min="1" max="6" step="0.5" value="2.5" data-pad="apellido">
+            </div>
           </div>
           <canvas id="apellido-pad" class="pad"></canvas>
           <div class="sig-status"><span class="dot" id="dotApellido"></span><span id="txtApellido">pendiente</span></div>
@@ -1616,6 +1683,30 @@ if (rechazo !== '') {
       apellidoPadTecnico.addEventListener('endStroke', function(){ updateSigStatus(apellidoPadTecnico,'dotApellidoTecnico','txtApellidoTecnico', null); });
       document.getElementById('clearFirmaTecnico').addEventListener('click', function(){ limpiarFirmaTecnico(); updateSigStatus(signaturePadTecnico,'dotFirmaTecnico','txtFirmaTecnico', null); });
       document.getElementById('clearApellidoTecnico').addEventListener('click', function(){ limpiarApellidoTecnico(); updateSigStatus(apellidoPadTecnico,'dotApellidoTecnico','txtApellidoTecnico', null); });
+
+      // ---- color y grosor de trazo por firma ----
+      var padMap = {
+        firma: signaturePad,
+        apellido: apellidoPad,
+        firmaTecnico: signaturePadTecnico,
+        apellidoTecnico: apellidoPadTecnico
+      };
+      document.querySelectorAll('.color-swatches').forEach(function(group){
+        var pad = padMap[group.dataset.pad];
+        group.querySelectorAll('.color-swatch').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            group.querySelectorAll('.color-swatch').forEach(function(b){ b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            pad.penColor = btn.dataset.color;
+          });
+        });
+      });
+      document.querySelectorAll('.width-control input[type="range"]').forEach(function(input){
+        var pad = padMap[input.dataset.pad];
+        input.addEventListener('input', function(){
+          pad.maxWidth = parseFloat(input.value);
+        });
+      });
 
       // ---- medidor de campos completos ----
       var required = Array.prototype.slice.call(document.querySelectorAll('[required]'));
