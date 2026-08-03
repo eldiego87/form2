@@ -319,7 +319,7 @@ textarea{resize:vertical;min-height:110px;line-height:1.5;}
   padding:4px 2px;text-decoration:underline;text-underline-offset:2px;
 }
 canvas.pad{
-  width:100%;height:234px;
+  width:100%;height:156px;
   border:1px dashed var(--line);
   border-radius:var(--radius-field);
   background:
@@ -1509,10 +1509,10 @@ if (rechazo !== '') {
     doc.text(comentariosLíneas, 11, 178);  // Coordenadas X=10, Y=200
 
             // Obtener la firma y el apellido como vectores (SVG) y añadirlos al PDF
-            await agregarFirmaSVG(doc, signaturePad, 120, 260, 70, 24);
+            await agregarFirmaSVG(doc, signaturePad, 120, 260, 77, 27);
             await agregarFirmaSVG(doc, apellidoPad, 120, 277, 70, 12);
-            await agregarFirmaSVG(doc, signaturePadTecnico, 35, 260, 70, 24);
-            await agregarFirmaSVG(doc, apellidoPadTecnico, 35, 277, 70, 12);
+            await agregarFirmaSVG(doc, signaturePadTecnico, 5, 260, 77, 27);
+            await agregarFirmaSVG(doc, apellidoPadTecnico, 5, 278, 70, 12);
 
             // Generar el nombre del archivo PDF
             const formattedDateForFilename = fecha.replace(/-/g, '').slice(2); // Formato AAMMDD
