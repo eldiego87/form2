@@ -492,7 +492,7 @@ canvas.pad{
           <label for="nombreClinica">Nombre de la clínica / sede</label>
           <div class="readout readout--text"><input type="text" id="nombreClinica" placeholder="Sede puntual" required></div>
           <div class="chiprow">
-            <select id="nefroargINPUT">
+            <select id="nefroargINPUT" data-empresa="NEFROLOGÍA ARGENTINA" hidden>
               <option value="">NEFRO ARG</option>
               <option value="IMDE LANÚS">LANÚS</option>
               <option value="IMDE GUERNICA">GUERNICA</option>
@@ -503,7 +503,7 @@ canvas.pad{
               <option value="NEFROMAT - SAN CRISTOBAL">FUNES</option>
               <option value="NEFROMAT - GUEMES">GÜEMES</option>
             </select>
-            <select id="itacINPUT">
+            <select id="itacINPUT" data-empresa="ITAC - NEPHROLOGY" hidden>
               <option value="">ITAC</option>
               <option value="OSMOSIS 1">OSMOSIS 1</option>
               <option value="OSMOSIS 2">OSMOSIS 2</option>
@@ -512,13 +512,13 @@ canvas.pad{
               <option value="AUTOCLAVES 7° ">AUTOCLAVES</option>
               <option value="TERMODESINFECTADORA MATACHANA 7°">LAVADORA</option>
             </select>
-            <select id="sancaINPUT">
+            <select id="sancaINPUT" data-empresa="CLÍNICA SAN CAMILO" hidden>
               <option value="">SAN CAMILO</option>
               <option value="OSMOSIS TP100">TP100</option>
               <option value="OSMOSIS COMPACTA">OSMOSIS COMP</option>
               <option value="ESTERILIZACIÓN">ESTERILIZACIÓN</option>
             </select>
-            <select id="militarINPUT">
+            <select id="militarINPUT" data-empresa="HOSPITAL MILITAR CENTRAL" hidden>
               <option value="">MILITAR</option>
               <option value="SERVICIO DE DIALISIS">DIALISIS</option>
             </select>
@@ -1686,6 +1686,18 @@ if (rechazo !== '') {
         var el = document.getElementById('empresaResumen');
         el.textContent = [e, c].filter(Boolean).join(' · ');
       }
+      // Mostrar solo el desplegable de sedes de la empresa elegida
+      function filtrarSedes(){
+        var elegida = empresaSelectEl.value;
+        sedeSelectEls.forEach(function(sel){
+          var corresponde = elegida !== '' && sel.dataset.empresa === elegida;
+          sel.hidden = !corresponde;
+          if(!corresponde) sel.value = '';  // evita sedes de otra empresa en el PDF
+        });
+      }
+      empresaSelectEl.addEventListener('change', filtrarSedes);
+      filtrarSedes();
+
       empresaEl.addEventListener('input', refreshResumen);
       clinicaEl.addEventListener('input', refreshResumen);
       empresaSelectEl.addEventListener('change', refreshResumen);
