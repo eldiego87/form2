@@ -539,31 +539,31 @@ canvas.pad{
       <div class="grid">
         <div class="field">
           <label for="pressBomba">Bomba presurizadora</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressBomba" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressBomba" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressFS">Salida filtro sedimentos</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressFS" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressFS" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressFCA1">Carbón activado 1</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressFCA1" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressFCA1" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressFCA2">Carbón activado 2</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressFCA2" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressFCA2" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressFARC">Filtro ablandador</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressFARC" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressFARC" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressFDRA">Filtro desnitrificador</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressFDRA" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressFDRA" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressFPRE">Filtro pre ósmosis</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressFPRE" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressFPRE" required><span class="unit">bar</span></div>
         </div>
       </div>
 
@@ -571,11 +571,11 @@ canvas.pad{
       <div class="grid">
         <div class="field">
           <label for="pressLOOP">Presión de loop</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressLOOP" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressLOOP" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressRETORNO">Presión de retorno</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressRETORNO" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressRETORNO" required><span class="unit">bar</span></div>
         </div>
       </div>
     </div>
@@ -591,15 +591,15 @@ canvas.pad{
       <div class="grid">
         <div class="field">
           <label for="pressALIM">Presión de alimentación</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressALIM" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressALIM" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressINMEM">Entrada de membranas</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressINMEM" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressINMEM" required><span class="unit">bar</span></div>
         </div>
         <div class="field">
           <label for="pressOUTMEM">Salida de membranas</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="pressOUTMEM" required><span class="unit">bar</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="pressOUTMEM" required><span class="unit">bar</span></div>
         </div>
       </div>
 
@@ -608,7 +608,7 @@ canvas.pad{
         <div class="field">
           <label for="condIN">Conductividad de entrada</label>
           <div class="readout">
-            <input type="number" inputmode="decimal" step="0.1" id="condIN" required oninput="actualizarRechazo()">
+            <input type="text" inputmode="decimal" autocomplete="off" id="condIN" required oninput="actualizarRechazo()">
             <div class="unit-toggle" data-select="unidadcondIN">
               <button type="button" data-value="µS/cm" class="is-active">µS</button>
               <button type="button" data-value="ppm">ppm</button>
@@ -619,7 +619,7 @@ canvas.pad{
         <div class="field">
           <label for="condOUT">Conductividad de salida</label>
           <div class="readout">
-            <input type="number" inputmode="decimal" step="0.1" id="condOUT" required oninput="actualizarRechazo()">
+            <input type="text" inputmode="decimal" autocomplete="off" id="condOUT" required oninput="actualizarRechazo()">
             <div class="unit-toggle" data-select="unidadcondOUT">
               <button type="button" data-value="µS/cm" class="is-active">µS</button>
               <button type="button" data-value="ppm">ppm</button>
@@ -629,7 +629,7 @@ canvas.pad{
         </div>
         <div class="field">
           <label for="rechazo">Rechazo registrado</label>
-          <div class="readout"><input type="number" inputmode="decimal" step="0.1" id="rechazo" required><span class="unit">%</span></div>
+          <div class="readout"><input type="text" inputmode="decimal" autocomplete="off" id="rechazo" required><span class="unit">%</span></div>
         </div>
         <div class="field">
           <label>Rechazo calculado</label>
@@ -645,7 +645,7 @@ canvas.pad{
         <div class="field field--span2">
           <label for="caudalPERM">Caudal de permeado</label>
           <div class="readout">
-            <input type="number" inputmode="decimal" step="0.1" id="caudalPERM" required>
+            <input type="text" inputmode="decimal" autocomplete="off" id="caudalPERM" required>
             <div class="unit-toggle" data-select="unidadCaudalPerm">
               <button type="button" data-value="L/m" class="is-active">L/m</button>
               <button type="button" data-value="L/h">L/h</button>
@@ -662,7 +662,7 @@ canvas.pad{
         <div class="field">
           <label for="caudalCONC">Caudal de concentrado</label>
           <div class="readout">
-            <input type="number" inputmode="decimal" step="0.1" id="caudalCONC" required>
+            <input type="text" inputmode="decimal" autocomplete="off" id="caudalCONC" required>
             <div class="unit-toggle" data-select="unidadCaudalConc">
               <button type="button" data-value="L/m" class="is-active">L/m</button>
               <button type="button" data-value="L/h">L/h</button>
@@ -1703,6 +1703,27 @@ if (rechazo !== '') {
       empresaSelectEl.addEventListener('change', refreshResumen);
       sedeSelectEls.forEach(function(sel){ sel.addEventListener('change', refreshResumen); });
       refreshResumen();
+
+      // ---- decimales: aceptar coma o punto (teclados en español, ej. iPhone) ----
+      // Se ejecuta antes que los oninput de cada campo, así el cálculo de rechazo ya recibe el punto.
+      var CAMPOS_TEXTO_DECIMAL = ['CLORO', 'DUREZA'];  // aceptan "NEG", solo se cambia la coma
+      document.addEventListener('input', function(ev){
+        var el = ev.target;
+        var esNumerico = el.matches && el.matches('input[inputmode="decimal"]');
+        if(!esNumerico && CAMPOS_TEXTO_DECIMAL.indexOf(el.id) === -1) return;
+        var original = el.value;
+        var limpio = original.replace(/,/g, '.');
+        if(esNumerico){
+          limpio = limpio.replace(/[^0-9.\-]/g, '');           // solo números, punto y signo
+          var i = limpio.indexOf('.');
+          if(i !== -1) limpio = limpio.slice(0, i + 1) + limpio.slice(i + 1).replace(/\./g, '');  // un solo punto
+        }
+        if(limpio !== original){
+          var pos = el.selectionStart - (original.length - limpio.length);
+          el.value = limpio;
+          try { el.setSelectionRange(pos, pos); } catch(e){}
+        }
+      }, true);
 
       // ---- unit toggles -> hidden select ----
       document.querySelectorAll('.unit-toggle').forEach(function(group){
